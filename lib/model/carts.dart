@@ -1,31 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_doan/model/foods.dart';
+import 'package:flutter_doan/model/items.dart';
+import 'package:flutter_doan/model/tableitems.dart';
 import 'package:flutter_doan/model/tables.dart';
 
 class Cart {
-  static List<Foods> cart = [];
-  void addProductToCart(Foods food) {
-    if (!cart.contains(food)) {
-      cart.add(food);
+  static List<Items> cart = [];
+  void addProductToCart(Items item) {
+    if (!cart.contains(item)) {
+      cart.add(item);
     }
   }
 
-  List<Foods> getCart() {
+  List<Items> getCart() {
     return cart;
   }
 }
 
 class CartTable {
-  static List<Tables> cartTB = [];
-  void addTableToCart(Tables table) {
-    if (!cartTB.contains(table)) {
-      cartTB.add(table);
+  static List<TableItems> cartTB = [];
+  void addTableToCart(TableItems tableitem) {
+    if (!cartTB.contains(tableitem)) {
+      cartTB.add(tableitem);
     }
     //cart.add(food);
   }
 
-  List<Tables> getCartTB() {
+  List<TableItems> getCartTB() {
     return cartTB;
   }
 }

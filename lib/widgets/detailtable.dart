@@ -1,13 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/model/carts.dart';
 import 'package:flutter_doan/model/foods.dart';
+import 'package:flutter_doan/model/items.dart';
 import 'package:flutter_doan/model/table.dart';
+import 'package:flutter_doan/model/tableitems.dart';
 import 'package:flutter_doan/model/tables.dart';
+import 'package:flutter_doan/style/addtabletocart.dart';
 import 'package:flutter_doan/style/style.dart';
 import 'package:flutter_doan/widgets/seemore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quantity_input/quantity_input.dart';
+import 'package:intl/intl.dart';
 
 class buildSheetTable2 extends StatefulWidget {
   Tables table;
@@ -18,6 +23,7 @@ class buildSheetTable2 extends StatefulWidget {
 }
 
 class _buildSheetTable2State extends State<buildSheetTable2> {
+  DateTime dateTime = DateTime(DateTime.now().year - 5, 01, 01, 0, 0);
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -41,53 +47,13 @@ class _buildSheetTable2State extends State<buildSheetTable2> {
                     child: Text('Booking Details', style: heading)),
                 buildBookingDetail(),
                 buildBookingEndStrip(),
-                buildBookingButton(),
+                AddTableToCart(
+                  tableItem:
+                      TableItems(table: widget.table, datetime: dateTime),
+                ),
               ],
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildBookingButton() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 44),
-      width: double.infinity,
-      child: RaisedButton(
-        onPressed: () {
-          CartTable cartTB = CartTable();
-          if (cartTB.getCartTB().length > 0) {
-            Fluttertoast.showToast(
-                msg: "Booking fail",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0);
-          } else {
-            cartTB.addTableToCart(widget.table);
-            //cartTB.createTable(widget.table);
-            if (kDebugMode) {
-              print(cartTB.getCartTB().length.toString());
-            }
-            Fluttertoast.showToast(
-                msg: "Booking success",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0);
-          }
-        },
-        color: Colors.orange[900],
-        textColor: Colors.white,
-        elevation: 2,
-        child: const Text('Book Now'),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
         ),
       ),
     );
@@ -115,15 +81,13 @@ class _buildSheetTable2State extends State<buildSheetTable2> {
                 title: Padding(
                     padding: const EdgeInsets.only(bottom: 6),
                     child: Text('Booking Date & Time', style: heading2)),
-                subtitle: Text('March 21, 03:30 PM', style: heading1),
+                subtitle: Text(getText(), style: heading1),
                 trailing: RaisedButton(
-                  onPressed: () {
-                    print('object');
-                  },
+                  onPressed: () => pickDateTime(context),
                   color: mainColor,
                   textColor: Colors.white,
                   elevation: 1,
-                  child: const Text('Book Now'),
+                  child: const Text('datetime'),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(22),
                   ),
@@ -196,7 +160,7 @@ class _buildSheetTable2State extends State<buildSheetTable2> {
         const SizedBox(height: 2),
         Text('${widget.table.nameTable}', style: heading1),
         const SizedBox(height: 2),
-        Text(changeState().toString(), style: heading2),
+        //Text(changeState(), style: heading2),
         const SizedBox(height: 2),
         Text('${widget.table.quantity}', style: heading1),
         const SizedBox(height: 2),
@@ -355,6 +319,59 @@ class _buildSheetTable2State extends State<buildSheetTable2> {
           const Text("ngưng hoạt động"),
         ],
       );
+    }
+  }
+
+  Future pickDateTime(BuildContext context) async {
+    final date = await pickDate(context);
+    if (date == null) return;
+
+    final time = await pickTime(context);
+    if (time == null) return;
+
+    setState(() {
+      dateTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
+      );
+    });
+  }
+
+  Future<DateTime?> pickDate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: dateTime,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
+
+    if (newDate == null) return null;
+
+    return newDate;
+  }
+
+  Future<TimeOfDay?> pickTime(BuildContext context) async {
+    final initialTime = TimeOfDay(hour: 9, minute: 0);
+    final newTime = await showTimePicker(
+      context: context,
+      initialTime: dateTime != DateTime.now()
+          ? TimeOfDay(hour: dateTime.hour, minute: dateTime.minute)
+          : initialTime,
+    );
+    if (newTime == null) return null;
+
+    return newTime;
+  }
+
+  String getText() {
+    if (dateTime == DateTime(DateTime.now().year - 5, 01, 01, 0, 0)) {
+      return 'Select DateTime';
+    } else {
+      return DateFormat('MM/dd/yyyy HH:mm').format(dateTime);
     }
   }
 }

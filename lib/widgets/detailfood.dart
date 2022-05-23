@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/model/carts.dart';
 import 'package:flutter_doan/model/food.dart';
 import 'package:flutter_doan/model/foods.dart';
+import 'package:flutter_doan/model/items.dart';
+import 'package:flutter_doan/style/addtocart.dart';
 import 'package:flutter_doan/widgets/seemore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quantity_input/quantity_input.dart';
@@ -136,34 +138,9 @@ class _buildSheetState extends State<buildSheet> {
                           value: simpleIntInput,
                           onChanged: (value) => setState(() => simpleIntInput =
                               int.parse(value.replaceAll(',', '')))),
-                      SizedBox(
-                        height: 50.0,
-                        child: RaisedButton(
-                          child: const Text(
-                            "ADD TO CART",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          color: Theme.of(context).colorScheme.secondary,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          onPressed: () {
-                            Cart cart = Cart();
-                            cart.addProductToCart(widget.food);
-                            if (kDebugMode) {
-                              print(cart.getCart().length.toString());
-                            }
-                            Fluttertoast.showToast(
-                                msg: "Add to cart",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                          },
-                        ),
+                      AddFoodToCart(
+                        item:
+                            Items(food: widget.food, quantity: simpleIntInput),
                       ),
                     ],
                   ),

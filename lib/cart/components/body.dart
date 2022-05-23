@@ -1,9 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_doan/cart/components/checkoutcart.dart';
 import 'package:flutter_doan/model/carts.dart';
 import 'package:flutter_doan/model/foods.dart';
+import 'package:flutter_doan/model/items.dart';
 import 'package:flutter_doan/model/table.dart';
+import 'package:flutter_doan/model/tableitems.dart';
 import 'package:flutter_doan/model/tables.dart';
 import 'package:flutter_doan/style/constants.dart';
 import 'package:flutter_doan/style/size_config.dart';
@@ -14,8 +17,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  List<Foods> cartdetails = Cart().getCart();
-  List<Tables> cartTBdetails = CartTable().getCartTB();
+  List<Items> cartdetails = Cart().getCart();
+  List<TableItems> cartTBdetails = CartTable().getCartTB();
   //late Tables cartTB;
   double sum = 0.0;
 
@@ -23,8 +26,8 @@ class _BodyState extends State<Body> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cartdetails.forEach((food) {
-      sum = sum + food.Price;
+    cartdetails.forEach((item) {
+      sum = sum + item.quantity * item.food!.Price;
     });
 
     //cartTB = CartTable().getCartTable();
@@ -48,14 +51,14 @@ class _BodyState extends State<Body> {
                     children: [
                       GestureDetector(
                         child: CartTB(
-                          table: cartTBdetails[index],
+                          tableItem: cartTBdetails[index],
                         ),
                         onTap: () {
                           setState(() {
                             cartTBdetails.removeAt(index);
                             sum = 0.0;
-                            for (var table in cartTBdetails) {
-                              sum = sum + table.price;
+                            for (var tableItem in cartTBdetails) {
+                              sum = sum + tableItem.table!.price;
                             }
                           });
                         },
@@ -76,14 +79,14 @@ class _BodyState extends State<Body> {
                           children: [
                             GestureDetector(
                               child: CartItem(
-                                food: cartdetails[index],
+                                item: cartdetails[index],
                               ),
                               onTap: () {
                                 setState(() {
                                   cartdetails.removeAt(index);
                                   sum = 0.0;
-                                  for (var product in cartdetails) {
-                                    sum = sum + product.Price;
+                                  for (var item in cartdetails) {
+                                    sum = sum + item.food!.Price;
                                   }
                                 });
                               },
@@ -112,9 +115,9 @@ class _BodyState extends State<Body> {
 }
 
 class CartItem extends StatelessWidget {
-  Foods food;
+  Items item;
 
-  CartItem({Key? key, required this.food}) : super(key: key);
+  CartItem({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -122,9 +125,11 @@ class CartItem extends StatelessWidget {
       color: const Color(0xFFF5F5F5),
       padding: const EdgeInsets.all(16),
       child: Row(children: [
-        SizedBox(width: 100, height: 100, child: Image.network(food.avatar)),
-        Expanded(child: Text(food.NameFood)),
-        Expanded(child: Text(food.Price.toString())),
+        SizedBox(
+            width: 100, height: 100, child: Image.network(item.food!.avatar)),
+        Expanded(child: Text(item.food!.NameFood)),
+        Expanded(child: Text(item.food!.Price.toString())),
+        Expanded(child: Text(item.quantity.toString())),
         const Icon(Icons.delete_outlined)
       ]),
     );
@@ -132,9 +137,9 @@ class CartItem extends StatelessWidget {
 }
 
 class CartTB extends StatelessWidget {
-  Tables table;
+  TableItems tableItem;
 
-  CartTB({Key? key, required this.table}) : super(key: key);
+  CartTB({Key? key, required this.tableItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +155,7 @@ class CartTB extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.network(table.image),
+              child: Image.network(tableItem.table!.image),
             ),
           ),
         ),
@@ -159,14 +164,19 @@ class CartTB extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              table.nameTable,
+              tableItem.datetime.toString(),
+              style: TextStyle(color: Colors.black, fontSize: 16),
+              maxLines: 2,
+            ),
+            Text(
+              tableItem.table!.nameTable,
               style: TextStyle(color: Colors.black, fontSize: 16),
               maxLines: 2,
             ),
             SizedBox(height: 10),
             Text.rich(
               TextSpan(
-                text: "\$${table.price}",
+                text: "\$${tableItem.table!.price}",
                 style: const TextStyle(
                     fontWeight: FontWeight.w600, color: kPrimaryColor),
               ),

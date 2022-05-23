@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/model/carts.dart';
 import 'package:flutter_doan/model/foods.dart';
+import 'package:flutter_doan/model/items.dart';
+import 'package:flutter_doan/style/addtocart.dart';
 import 'package:flutter_doan/widgets/detailfood.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -206,19 +208,9 @@ class _GridFood2State extends State<GridFood2> {
                   changeState(),
                   IconButton(
                     onPressed: () {
-                      Cart cart = Cart();
-                      cart.addProductToCart(widget.food);
-                      if (kDebugMode) {
-                        print(cart.getCart().length.toString());
-                      }
-                      Fluttertoast.showToast(
-                          msg: "Add to cart",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                      AddFoodToCart(
+                        item: Items(food: widget.food, quantity: 1),
+                      );
                     },
                     icon: const Icon(
                       Icons.add_circle,
