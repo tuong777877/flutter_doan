@@ -29,7 +29,9 @@ class _BodyState extends State<Body> {
     cartdetails.forEach((item) {
       sum = sum + item.quantity * item.food!.Price;
     });
-
+    cartTBdetails.forEach((itemtable) {
+      sum = sum + itemtable.table!.price;
+    });
     //cartTB = CartTable().getCartTable();
   }
 
