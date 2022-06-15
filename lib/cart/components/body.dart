@@ -103,7 +103,7 @@ class _BodyState extends State<Body> {
               : Row(
                   children: const [
                     Expanded(
-                      child: Text("Chua dat mon an"),
+                      child: Text("Chưa đặt món!"),
                     ),
                   ],
                 ),

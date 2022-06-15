@@ -19,7 +19,6 @@ class Body extends StatelessWidget {
             SizedBox(height: getProportionateScreenHeight(5)),
             TableHeader(),
             SizedBox(height: getProportionateScreenHeight(20)),
-            CategoriesStore(),
             TableListFragement(),
           ],
         ),
