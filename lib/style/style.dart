@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const mainColor = Color(0Xffcc0066);
+const mainColor = Colors.orange;
 
 var raisedBoxShadow = const BoxShadow(
   color: Colors.blueGrey,

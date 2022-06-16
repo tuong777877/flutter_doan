@@ -2,6 +2,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/homepage/components/homeheader.dart';
 import 'package:flutter_doan/homepage/homefragment/home_fragment.dart';
+import 'package:flutter_doan/model/foods.dart';
 import 'package:flutter_doan/style/size_config.dart';
 
 class Body extends StatefulWidget {
@@ -28,27 +29,38 @@ class _BodyState extends State<Body> {
             children: [
               Padding(padding: const EdgeInsets.only(top: 20.0),),
               HomeHeader(),
-              Padding(padding: const EdgeInsets.only(bottom: 20.0),),
-              
-              SizedBox(
-                height: 200.0,
-                width: double.infinity,
-                child: Carousel(
-                  
-                  images: imgList.map((item)=>Container(
-                  child: Image.network(item,
-                  fit: BoxFit.cover,
+              Column(
+                children: [
+                  SizedBox(
+                  height: 200.0,
+                  width: double.infinity,
+                  child: Carousel(
+                    images: imgList.map((item)=>Container(
+                    child: Image.network(item,
+                    fit: BoxFit.cover,
+                    ),
+                  )).toList(),
                   ),
-                )).toList(),
-                ),
-              ),
-              HomeDetail()
+                  ),
+                  Padding(padding: EdgeInsets.all(8.0),
+                    child: Text('Top bán chạy',
+                    style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),),
+                HomeDetail(),
+                ],
+              )
+              
             ],
         ),
       ),
     );
   }
 }
+
 
 // class Body extends StatefulWidget {
 //   const Body({Key? key}) : super(key: key);

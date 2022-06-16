@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/fragment/differencefragment/different_fragment.dart';
 import 'package:flutter_doan/fragment/foodfragment/foods_fragment.dart';
 import 'package:flutter_doan/fragment/preferentialfragment/preferential_fragment.dart';
+import 'package:flutter_doan/fragment/profileUser/profile.dart';
 import 'package:flutter_doan/fragment/tablefragment/table_fragment.dart';
 import 'package:flutter_doan/homepage/homepage.dart';
 import 'package:flutter_doan/model/carts.dart';
@@ -93,7 +94,7 @@ class CustomBottomNavBar extends StatelessWidget {
                       : inActiveIconColor,
                 ),
                 onPressed: () =>
-                    Navigator.pushNamed(context, DifferentFragment.routeName),
+                    Navigator.pushNamed(context, ProfilePage.routeName),
               ),
             ],
           )),
