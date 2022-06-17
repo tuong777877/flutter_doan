@@ -24,8 +24,8 @@ class _SignInScreenState extends State<SignInScreen> {
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
           hexStringToColor("FC6A21"),
-          hexStringToColor("FFBF01"),
-          hexStringToColor("FFE159")
+          hexStringToColor("FF6600"),
+          hexStringToColor("FF3300")
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
             child: Padding(
@@ -36,7 +36,7 @@ class _SignInScreenState extends State<SignInScreen> {
               SizedBox(
                 height: 30,
               ),
-              reusableTextField("Enter Username", Icons.person_outline, false, _emailTextController),
+              reusableTextField("Enter Email", Icons.person_outline, false, _emailTextController),
               SizedBox(
                 height: 30,
               ),
