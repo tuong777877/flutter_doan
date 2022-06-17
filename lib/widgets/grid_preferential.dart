@@ -66,7 +66,7 @@ class _GridPreferentialState extends State<GridPreferential> {
                     maxLines: 2,
                   ),
                   Text(
-                    "${widget.pre.discount} VND",
+                    "${widget.pre.discount} %",
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
@@ -77,7 +77,7 @@ class _GridPreferentialState extends State<GridPreferential> {
                     children: [
                       const SizedBox(
                         child: Icon(
-                          Icons.table_restaurant_rounded,
+                          Icons.discount,
                           color: Colors.black54,
                           size: 25,
                         ),

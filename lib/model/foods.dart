@@ -1,13 +1,13 @@
 import 'dart:io';
 
 class Foods {
-  int id;
+  String id;
   String NameFood;
   String Description;
   String avatar;
   double Price;
   //int cateID;
-  int Quantity;
+  int? Quantity;
   bool Status;
 
   Foods(
@@ -17,7 +17,7 @@ class Foods {
       required this.avatar,
       required this.Price,
       //required this.cateID,
-      required this.Quantity,
+      this.Quantity,
       required this.Status});
   fromJson(Map<String, dynamic> json) {
     id = json['id'];

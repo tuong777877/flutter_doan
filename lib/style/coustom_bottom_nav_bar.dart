@@ -89,7 +89,7 @@ class CustomBottomNavBar extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.account_circle,
-                  color: MenuState.difference == selectedMenu
+                  color: MenuState.profile == selectedMenu
                       ? kPrimaryColor
                       : inActiveIconColor,
                 ),
