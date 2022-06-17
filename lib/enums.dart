@@ -1,1 +1,1 @@
-enum MenuState { home, food, table, coupon, difference }
+enum MenuState { home, food, table, coupon, profile }

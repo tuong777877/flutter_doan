@@ -107,7 +107,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: const CustomBottomNavBar(selectedMenu: MenuState.home),
+      bottomNavigationBar: const CustomBottomNavBar(selectedMenu: MenuState.profile),
       body: Stack(
         children: [
           Padding(
@@ -139,7 +139,6 @@ class ProfilePage extends StatelessWidget {
                   color: Color.fromARGB(90, 20, 20, 20),
                   blurRadius: 0.8,
                   offset: Offset(9,9),
-
                   )
               ]
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doan/search/searchpage.dart';
 import 'package:flutter_doan/style/constants.dart';
 import 'package:flutter_doan/style/size_config.dart';
 
@@ -15,17 +16,16 @@ class SearchField extends StatelessWidget {
         color: kSecondaryColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
       ),
-      child: TextField(
-        onChanged: (value) => print(value),
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(20),
-                vertical: getProportionateScreenWidth(9)),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            hintText: "Search product",
-            prefixIcon: const Icon(Icons.search)),
+      child: TextButton(
+        onPressed: () => {
+          Navigator.pushNamed(context, SearchPage.routeName)
+        },
+        child: Row(
+          children: const [
+            Icon(Icons.search),
+            Text("Tìm kiếm sản phẩm")
+          ],
+        )
       ),
     );
   }

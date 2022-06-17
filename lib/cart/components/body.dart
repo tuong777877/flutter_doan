@@ -53,22 +53,26 @@ class _BodyState extends State<Body> {
                         shrinkWrap: true,
                         itemCount: cartTBdetails.length,
                         itemBuilder: (context, index) {
-                          return Column(
+                          return Row(
                             children: [
                               GestureDetector(
                                 child: CartTB(
                                   tableItem: cartTBdetails[index],
                                 ),
-                                onTap: () {
+                              ),
+                              IconButton(
+                                padding: EdgeInsets.only(left: 50,),
+                                icon: const Icon(Icons.delete_outline),
+                                onPressed: () {
                                   setState(() {
                                     cartTBdetails.removeAt(index);
                                     sum = 0.0;
                                     for (var itemtable in cartTBdetails){
-                                         sum = sum + itemtable.table!.price;     
+                                      sum = sum + itemtable.table!.price;     
                                       }   
                                     for (var item in cartdetails) {
-                                              sum = sum + item.food!.Price;
-                                          }
+                                      sum = sum + item.food!.Price;
+                                    }
                                   });
                                 },
                               ),
@@ -89,22 +93,26 @@ class _BodyState extends State<Body> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
+                                IconButton(
+                                      padding: EdgeInsets.only(left: 300,),
+                                      icon: const Icon(Icons.remove_shopping_cart),
+                                      onPressed: () {
+                                        setState(() {
+                                          cartdetails.removeAt(index);
+                                          sum = 0.0;
+                                          for (var itemtable in cartTBdetails){
+                                            sum = sum + itemtable.table!.price;     
+                                            }   
+                                          for (var item in cartdetails) {
+                                            sum = sum + item.food!.Price;
+                                          }
+                                        });
+                                      },
+                                    ),
                                 GestureDetector(
                                   child: CartItem(
                                     item: cartdetails[index],
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      cartdetails.removeAt(index);
-                                      sum = 0.0;
-                                      for (var item in cartdetails) {
-                                          sum = sum + item.food!.Price;
-                                      }
-                                      for (var itemTB in cartTBdetails){
-                                        sum = sum + itemTB.table!.price;
-                                      }
-                                    });
-                                  },
                                 ),
                                 const Divider()
                               ],
@@ -146,11 +154,13 @@ class CartItem extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(children: [
         SizedBox(
-            width: 100, height: 100, child: Image.network(item.food!.avatar)),
-        Expanded(child: Text(item.food!.NameFood)),
+            width: 60, height: 60, child: Image.network(item.food!.avatar)),
+        Padding(padding: EdgeInsets.only(left: 20)),
+        Expanded(
+          child: Text(item.food!.NameFood)
+        ),
         Expanded(child: Text(item.food!.Price.toString())),
         Expanded(child: Text(item.quantity.toString())),
-        const Icon(Icons.delete_outlined)
       ]),
     );
   }

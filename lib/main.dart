@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_doan/fragment/differencefragment/splash_page.dart';
@@ -13,6 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey = 'pk_test_51L8xcgHalZvwhJhB0VbkdC9uhb298NNfqeqG1T4hbCbW6Fe5vCvgpSeVwTkeH6cFUx4MKoM84y0pO7YuvDmdcnNG006alGpuK3';
   await Stripe.instance.applySettings();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

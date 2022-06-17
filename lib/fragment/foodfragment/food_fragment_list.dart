@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
@@ -38,12 +37,13 @@ class FoodlistFragmet extends StatelessWidget {
           itemCount: food == null ? 0 : food.length,
           itemBuilder: (BuildContext context, int index) {
             Map tables = food[index];
+            final List<Foods> storedocs = [];
             bool s = (tables['Status']);
             //Uri myUri = Uri.parse(tables['avatar']);
             //Link mylink = Link(tables['avatar']);
             return GridFood2(
               food: Foods(
-                  id: int.parse(tables['id']),
+                  id: tables['id'],
                   NameFood: tables['NameFood'],
                   Description: tables['Description'],
                   avatar: tables['avatar'],
