@@ -80,14 +80,14 @@ class _buildSheetTable2State extends State<buildSheetTable2> {
               child: ListTile(
                 title: Padding(
                     padding: const EdgeInsets.only(bottom: 6),
-                    child: Text('Booking Date & Time', style: heading2)),
+                    child: Text('Hẹn giờ đến quán', style: heading2)),
                 subtitle: Text(getText(), style: heading1),
                 trailing: RaisedButton(
                   onPressed: () => pickDateTime(context),
                   color: mainColor,
                   textColor: Colors.white,
                   elevation: 1,
-                  child: const Text('datetime'),
+                  child: const Text('Datetime'),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(22),
                   ),
@@ -162,10 +162,10 @@ class _buildSheetTable2State extends State<buildSheetTable2> {
         const SizedBox(height: 2),
         //Text(changeState(), style: heading2),
         const SizedBox(height: 2),
-        Text('${widget.table.quantity}', style: heading1),
+        Text('${widget.table.state}', style: heading1),
         const SizedBox(height: 2),
         const SizedBox(height: 2),
-        Text('1256 users review', style: heading2),
+        Text('${widget.table.description}', style: heading2),
       ],
     );
   }

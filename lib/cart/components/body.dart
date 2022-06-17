@@ -34,83 +34,101 @@ class _BodyState extends State<Body> {
     });
     //cartTB = CartTable().getCartTable();
   }
-
+ 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: [
-          Container(
-            height: 150,
-            color: Colors.white,
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: cartTBdetails.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      GestureDetector(
-                        child: CartTB(
-                          tableItem: cartTBdetails[index],
-                        ),
-                        onTap: () {
-                          setState(() {
-                            cartTBdetails.removeAt(index);
-                            sum = 0.0;
-                            for (var tableItem in cartTBdetails) {
-                              sum = sum + tableItem.table!.price;
-                            }
-                          });
-                        },
-                      ),
-                      const Divider()
-                    ],
-                  );
-                }),
-          ),
-          cartdetails.length > 0
-              ? Row(children: [
-                  Expanded(
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.only(top: 25),),
+            Text('Bàn đã đặt',
+            ),
+            Column(
+              children: [
+                SizedBox(
+                  child: Container(
+                    color: Colors.white,
                     child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: cartdetails.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            GestureDetector(
-                              child: CartItem(
-                                item: cartdetails[index],
+                        shrinkWrap: true,
+                        itemCount: cartTBdetails.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              GestureDetector(
+                                child: CartTB(
+                                  tableItem: cartTBdetails[index],
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    cartTBdetails.removeAt(index);
+                                    sum = 0.0;
+                                    for (var itemtable in cartTBdetails){
+                                         sum = sum + itemtable.table!.price;     
+                                      }   
+                                    for (var item in cartdetails) {
+                                              sum = sum + item.food!.Price;
+                                          }
+                                  });
+                                },
                               ),
-                              onTap: () {
-                                setState(() {
-                                  cartdetails.removeAt(index);
-                                  sum = 0.0;
-                                  for (var item in cartdetails) {
-                                    sum = sum + item.food!.Price;
-                                  }
-                                });
-                              },
-                            ),
-                            const Divider()
-                          ],
-                        );
-                      },
-                    ),
-                  )
-                ])
-              : Row(
-                  children: const [
-                    Expanded(
-                      child: Text("Chua dat mon an"),
-                    ),
-                  ],
+                              const Divider()
+                            ],
+                          );
+                        }),
+                  ),
                 ),
-          CheckOutCart(
-            sum: sum,
-          )
-        ],
+                cartdetails.length > 0
+                ? Row(children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 380,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: cartdetails.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  child: CartItem(
+                                    item: cartdetails[index],
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      cartdetails.removeAt(index);
+                                      sum = 0.0;
+                                      for (var item in cartdetails) {
+                                          sum = sum + item.food!.Price;
+                                      }
+                                      for (var itemTB in cartTBdetails){
+                                        sum = sum + itemTB.table!.price;
+                                      }
+                                    });
+                                  },
+                                ),
+                                const Divider()
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    )
+                  ])
+                : Row(
+                    children: const [
+                      Expanded(
+                        child: Text("Chưa đặt món!"),
+                      ),
+                    ],
+                  ),
+            CheckOutCart(
+              sum: sum,
+            )
+              ],
+            ),
+            
+          ],
+        ),
       ),
     );
   }
