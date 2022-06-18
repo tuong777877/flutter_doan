@@ -27,7 +27,7 @@ class _BodyState extends State<Body> {
     // TODO: implement initState
     super.initState();
     cartdetails.forEach((item) {
-      sum = sum + item.quantity * item.food!.Price;
+      sum = sum + item.quantity * item.food!.price;
     });
     cartTBdetails.forEach((itemtable) {
       sum = sum + itemtable.table!.price;
@@ -71,7 +71,7 @@ class _BodyState extends State<Body> {
                                       sum = sum + itemtable.table!.price;     
                                       }   
                                     for (var item in cartdetails) {
-                                      sum = sum + item.food!.Price;
+                                      sum = sum + item.food!.price;
                                     }
                                   });
                                 },
@@ -104,7 +104,7 @@ class _BodyState extends State<Body> {
                                             sum = sum + itemtable.table!.price;     
                                             }   
                                           for (var item in cartdetails) {
-                                            sum = sum + item.food!.Price;
+                                            sum = sum + item.food!.price;
                                           }
                                         });
                                       },
@@ -154,12 +154,12 @@ class CartItem extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(children: [
         SizedBox(
-            width: 60, height: 60, child: Image.network(item.food!.avatar)),
+            width: 60, height: 60, child: Image.network(item.food!.image)),
         Padding(padding: EdgeInsets.only(left: 20)),
         Expanded(
-          child: Text(item.food!.NameFood)
+          child: Text(item.food!.nameFood)
         ),
-        Expanded(child: Text(item.food!.Price.toString())),
+        Expanded(child: Text(item.food!.price.toString())),
         Expanded(child: Text(item.quantity.toString())),
       ]),
     );

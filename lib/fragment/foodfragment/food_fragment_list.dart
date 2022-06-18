@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
@@ -38,23 +39,54 @@ class FoodlistFragmet extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             Map tables = food[index];
             final List<Foods> storedocs = [];
-            bool s = (tables['Status']);
+            bool s = (tables['status']);
+            bool foodtrend = (tables['trending']);
             //Uri myUri = Uri.parse(tables['avatar']);
             //Link mylink = Link(tables['avatar']);
             return GridFood2(
               food: Foods(
                   id: tables['id'],
-                  NameFood: tables['NameFood'],
-                  Description: tables['Description'],
-                  avatar: tables['avatar'],
-                  Price: double.parse(tables['Price']),
+                  nameFood: tables['nameFood'],
+                  description: tables['description'],
+                  image: tables['image'],
+                  price: double.parse(tables['price']),
                   //cateID: int.parse(tables['cateID']),
-                  Quantity: (tables['Quantity']),
-                  Status: s),
+                  status: s,
+                  trending: foodtrend),
             );
           },
         ),
         const SizedBox(height: 30),
+        // StreamBuilder(
+        //   stream: FirebaseFirestore.instance.collection('Food').snapshots(),
+        //   builder: (context,  AsyncSnapshot<QuerySnapshot> snapshot){
+        //     if(snapshot.hasData){
+        //       return ListView.builder(
+        //         itemCount: snapshot.data!.docs.length,
+                
+        //         itemBuilder: (BuildContext context,int index) {
+        //           final List<Foods> storedocs = [];
+        //           snapshot.data!.docs.map((DocumentSnapshot document) {
+        //             Map data = document.data() as Map<String, dynamic>;
+        //            storedocs.add(Foods(id: data['Id'], NameFood: data['Name'], Price: (data['Price'] as int).toDouble(), Description: data['Description'], avatar: data['Image'], Status: data['Status']));
+        //           }).toList();
+        //           return GridFood2(food: Foods(
+        //             id: ['Id'].t, 
+        //             NameFood: data['Name'], 
+        //             Price: (data['Price'] as int).toDouble(), 
+        //             Description: data['Description'], avatar: data['Image'], 
+        //             Status: data['Status']))
+                  
+        //         }
+        //       );
+        //     }
+        //     else{
+        //       return Container();
+        //     }
+        //   },
+        
+
+        // )
       ],
     );
   }

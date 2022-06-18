@@ -26,7 +26,7 @@ class _AddTableToCartState extends State<AddTableToCart> {
         onPressed: () {
           CartTable cartTB = CartTable();
           if (cartTB.getCartTB().isNotEmpty ||
-              widget.tableItem.datetime.isAfter(DateTime.now())) {
+              widget.tableItem.datetime.isBefore(DateTime.now())) {
             Fluttertoast.showToast(
                 msg: "Bạn đang đặt 1 bàn khác",
                 toastLength: Toast.LENGTH_SHORT,

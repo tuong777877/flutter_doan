@@ -7,6 +7,7 @@ import 'package:flutter_doan/fragment/profileUser/profile.dart';
 import 'package:flutter_doan/fragment/tablefragment/table_fragment.dart';
 import 'package:flutter_doan/homepage/homepage.dart';
 import 'package:flutter_doan/search/searchpage.dart';
+import 'package:flutter_doan/signin/signin.dart';
 
 final Map<String, WidgetBuilder> routes = {
   // SignInPage.routeName: (context) => const SignInPage(),
@@ -18,5 +19,6 @@ final Map<String, WidgetBuilder> routes = {
   DifferentFragment.routeName: (context) => const DifferentFragment(),
   PreferentialFragment.routeName: (context) => const PreferentialFragment(),
   ProfilePage.routeName:(context) => const ProfilePage(),
-  SearchPage.routeName:(context) => const SearchPage()
+  SearchPage.routeName:(context) => const SearchPage(),
+  SignInScreen.routeName:(context) => const SignInScreen()
 };

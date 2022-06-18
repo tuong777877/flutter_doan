@@ -7,6 +7,7 @@ import '../widgets/reusable_widgets.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
+    static String routeName = "/SignInPage";
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();

@@ -168,7 +168,7 @@ class _GridFood2State extends State<GridFood2> {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                 child: Image(
-                  image: NetworkImage(widget.food.avatar.toString()),
+                  image: NetworkImage(widget.food.image.toString()),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -187,19 +187,15 @@ class _GridFood2State extends State<GridFood2> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    widget.food.NameFood,
+                    widget.food.nameFood,
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "${widget.food.Quantity}",
-                    style: const TextStyle(fontSize: 17, color: Colors.grey),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    "${widget.food.Price}",
+                    "${widget.food.price.toInt()} VNĐ",
                     style: const TextStyle(
                         fontSize: 20,
                         color: Colors.black,
@@ -236,13 +232,13 @@ class _GridFood2State extends State<GridFood2> {
   }
 
   changeState() {
-    if (widget.food.Status == true) {
+    if (widget.food.status == true) {
       return Row(
         children: [
           const SizedBox(width: 5),
           SizedBox(
             child: Icon(
-              widget.food.Status ? Icons.circle : Icons.circle,
+              widget.food.status ? Icons.circle : Icons.circle,
               color: Colors.green.shade700,
               size: 10,
             ),
@@ -250,7 +246,7 @@ class _GridFood2State extends State<GridFood2> {
           const SizedBox(
             width: 10,
           ),
-          const Text("Đang hoạt động"),
+          const Text("Còn món"),
         ],
       );
     } else {
@@ -259,7 +255,7 @@ class _GridFood2State extends State<GridFood2> {
           const SizedBox(width: 5),
           SizedBox(
             child: Icon(
-              widget.food.Status ? Icons.circle : Icons.circle,
+              widget.food.status ? Icons.circle : Icons.circle,
               color: Colors.black54,
               size: 10,
             ),
@@ -267,7 +263,7 @@ class _GridFood2State extends State<GridFood2> {
           const SizedBox(
             width: 10,
           ),
-          const Text("ngưng hoạt động"),
+          const Text("Hết món"),
         ],
       );
     }

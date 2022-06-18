@@ -1,13 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/enums.dart';
 import 'package:flutter_doan/fragment/profileUser/accountheader.dart';
 import 'package:flutter_doan/homepage/components/homeheader.dart';
+import 'package:flutter_doan/signin/signin.dart';
 import 'package:flutter_doan/style/coustom_bottom_nav_bar.dart';
 import 'package:flutter_doan/style/size_config.dart';
 
 class ProfilePage extends StatelessWidget {
 
-  Widget _texrFormField(){
+  Widget _texrFormField(context){
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,11 +92,23 @@ class ProfilePage extends StatelessWidget {
               ]
             ),
             child: Center(
-              child: RaisedButton(
-                color: Colors.white,
-                onPressed: (){},child: Text('Update', style: TextStyle(color: Colors.black,),),
-                ),
+              child: Row(
+                children: [
+                  RaisedButton(
+                    color: Colors.white,
+                    onPressed: (){
+                      FirebaseAuth.instance.signOut().then((value) {
+                        Navigator.pushReplacementNamed(context, SignInScreen.routeName);
+                      });
+                    },child: Text('Log out', style: TextStyle(color: Colors.black,),
+                    
+                    ),
+                    
+                    ),
+                ],
+              ),
             ),
+            
           ),
         )
       ],
@@ -119,7 +133,7 @@ class ProfilePage extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.only(top: 250, left: 20, right: 20),
             child: SingleChildScrollView(
-              child: _texrFormField(),
+              child: _texrFormField(context),
               ),
           ),
           Container(
