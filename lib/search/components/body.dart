@@ -56,10 +56,10 @@ class _BodyState extends State<Body> {
           final List<Foods> storedocs = [];
             snapshot.data!.docs.map((DocumentSnapshot document) {
               Map data = document.data() as Map<String, dynamic>;
-              storedocs.add(Foods(id: data['Id'], NameFood: data['Name'], Price: (data['Price'] as int).toDouble(), Description: data['Description'], avatar: data['Image'], Status: data['Status']));
+              storedocs.add(Foods(id: data['Id'], nameFood: data['Name'], price: (data['Price'] as int).toDouble(), description: data['Description'], image: data['Image'], status: data['Status'], trending: data['Trending']));
             }).toList();
             
-          return buildGridView(storedocs.where((p) => p.NameFood.contains(controller.text.toUpperCase())).toList());
+          return buildGridView(storedocs.where((p) => p.nameFood.contains(controller.text.toUpperCase())).toList());
           // return ListView.builder(
           //   scrollDirection: Axis.vertical,
           //   shrinkWrap: true,
@@ -99,15 +99,15 @@ class _BodyState extends State<Body> {
                 SizedBox(height: getProportionateScreenWidth(10)),
                 Hero(
                   tag: data[index].id,
-                  child: Image.network(data[index].avatar)),
+                  child: Image.network(data[index].image)),
                 Row(
                   children: [
-                    Expanded(child: Text(data[index].NameFood, style: const TextStyle(fontSize: 16), maxLines: 2, overflow: TextOverflow.ellipsis)),
+                    Expanded(child: Text(data[index].nameFood, style: const TextStyle(fontSize: 16), maxLines: 2, overflow: TextOverflow.ellipsis)),
                   ],
                 ),  
                 Row(
                   children: [
-                    Expanded(child: Text((data[index].Price.toString()), style: const TextStyle(fontSize: 16))),
+                    Expanded(child: Text((data[index].price.toString()), style: const TextStyle(fontSize: 16))),
                   ],
                 ),   
               ],      

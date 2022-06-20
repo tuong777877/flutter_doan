@@ -51,7 +51,7 @@ class _buildSheetState extends State<buildSheet> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
-                      "${widget.food.avatar}",
+                      "${widget.food.image}",
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -67,7 +67,7 @@ class _buildSheetState extends State<buildSheet> {
                     child: Column(
                       children: <Widget>[
                         Text(
-                          "${widget.food.NameFood}",
+                          "${widget.food.nameFood}",
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
@@ -78,7 +78,7 @@ class _buildSheetState extends State<buildSheet> {
                           width: 50,
                         ),
                         Text(
-                          "${widget.food.Price}",
+                          "${widget.food.price}",
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -122,7 +122,7 @@ class _buildSheetState extends State<buildSheet> {
                     maxLines: 2,
                   ),
                   const SizedBox(height: 10.0),
-                  SeeMore(text: "${widget.food.Description}"),
+                  SeeMore(text: "${widget.food.description}"),
                 ],
               ),
             ),

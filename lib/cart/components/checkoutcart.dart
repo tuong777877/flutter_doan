@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_doan/homepage/homepage.dart';
 import 'package:flutter_doan/style/constants.dart';
 import 'package:flutter_doan/style/default_button.dart';
 import 'package:flutter_doan/style/size_config.dart';
@@ -148,18 +149,18 @@ class _CheckOutCartState extends State<CheckOutCart> {
         showDialog(
           context: context,
             builder: (context) {
-              Future.delayed(Duration(seconds: 3), () {
-                Navigator.of(context).pop(true);
+              Future.delayed(Duration(seconds: 5), () {
+                Navigator.pushReplacementNamed(context, HomePage.routeName);
               });
               return AlertDialog(
-              title: Text('Chúc mừng'),
-            content: Text('Thanh toán thành công!'),
+              title: const Text('Chúc mừng'),
+            content: const Text('Thanh toán thành công!'),
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.pushReplacementNamed(context, HomePage.routeName);
                 },
-                child: Text('Đồng ý', style: TextStyle(color: Colors.black),),
+                child: const Text('Đồng ý', style: TextStyle(color: Colors.black),),
               ),
             ],
           );           
