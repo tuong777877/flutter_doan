@@ -8,7 +8,9 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
-
+import '../../model/carts.dart';
+import '../../model/items.dart';
+import '../../model/tableitems.dart';
 
 class CheckOutCart extends StatefulWidget {
   double sum;
@@ -20,6 +22,8 @@ class CheckOutCart extends StatefulWidget {
 
 class _CheckOutCartState extends State<CheckOutCart> {
   Map<String, dynamic>? paymentIntentData;
+  List<Items> cartdetails = Cart().getCart();
+  List<TableItems> cartTBdetails = CartTable().getCartTB();
 
   @override
   Widget build(BuildContext context) {
@@ -106,22 +110,24 @@ class _CheckOutCartState extends State<CheckOutCart> {
   Future<void> makePayment(double sum) async {
     try {
       paymentIntentData =
-      await createPaymentIntent(sum, 'VND'); //json.decode(response.body);
+          await createPaymentIntent(sum, 'VND'); //json.decode(response.body);
       // print('Response body==>${response.body.toString()}');
-      await Stripe.instance.initPaymentSheet(
-          paymentSheetParameters: SetupPaymentSheetParameters(
-              paymentIntentClientSecret: paymentIntentData!['client_secret'],
-              customerId: paymentIntentData!['customer'],
-              customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
-              applePay: true,
-              googlePay: true,
-              //customerId: paymentIntentData!['customer'],
-              testEnv: true,
-              style: ThemeMode.dark,
-              merchantCountryCode: 'VN',
-              merchantDisplayName: 'Food Shop')).then((value){
-      });
-
+      await Stripe.instance
+          .initPaymentSheet(
+              paymentSheetParameters: SetupPaymentSheetParameters(
+                  paymentIntentClientSecret:
+                      paymentIntentData!['client_secret'],
+                  customerId: paymentIntentData!['customer'],
+                  customerEphemeralKeySecret:
+                      paymentIntentData!['ephemeralKey'],
+                  applePay: true,
+                  googlePay: true,
+                  //customerId: paymentIntentData!['customer'],
+                  testEnv: true,
+                  style: ThemeMode.dark,
+                  merchantCountryCode: 'VN',
+                  merchantDisplayName: 'Food Shop'))
+          .then((value) {});
 
       ///now finally display payment sheeet
       displayPaymentSheet();
@@ -131,55 +137,60 @@ class _CheckOutCartState extends State<CheckOutCart> {
   }
 
   displayPaymentSheet() async {
-
     try {
-      await Stripe.instance.presentPaymentSheet(
-          parameters: PresentPaymentSheetParameters(
-            clientSecret: paymentIntentData!['client_secret'],
-            confirmPayment: true,
-          )).then((newValue){
-
-
-        print('payment intent'+paymentIntentData!['id'].toString());
-        print('payment intent'+paymentIntentData!['client_secret'].toString());
-        print('payment intent'+paymentIntentData!['amount'].toString());
-        print('payment intent'+paymentIntentData.toString());
+      await Stripe.instance
+          .presentPaymentSheet(
+              parameters: PresentPaymentSheetParameters(
+        clientSecret: paymentIntentData!['client_secret'],
+        confirmPayment: true,
+      ))
+          .then((newValue) {
+        print('payment intent' + paymentIntentData!['id'].toString());
+        print(
+            'payment intent' + paymentIntentData!['client_secret'].toString());
+        print('payment intent' + paymentIntentData!['amount'].toString());
+        print('payment intent' + paymentIntentData.toString());
         //orderPlaceApi(paymentIntentData!['id'].toString());
         //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("paid successfully")));
         showDialog(
-          context: context,
+            context: context,
             builder: (context) {
               Future.delayed(Duration(seconds: 5), () {
+                cartTBdetails.clear();
+                cartdetails.clear();
                 Navigator.pushReplacementNamed(context, HomePage.routeName);
               });
               return AlertDialog(
-              title: const Text('Chúc mừng'),
-            content: const Text('Thanh toán thành công!'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, HomePage.routeName);
-                },
-                child: const Text('Đồng ý', style: TextStyle(color: Colors.black),),
-              ),
-            ],
-          );           
-        });
+                title: const Text('Chúc mừng'),
+                content: const Text('Thanh toán thành công!'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      cartTBdetails.clear();
+                      cartdetails.clear();
+                      Navigator.pushReplacementNamed(
+                          context, HomePage.routeName);
+                    },
+                    child: const Text(
+                      'Đồng ý',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ],
+              );
+            });
 
         paymentIntentData = null;
-
-      }).onError((error, stackTrace){
+      }).onError((error, stackTrace) {
         print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
       });
-
-
     } on StripeException catch (e) {
       print('Exception/DISPLAYPAYMENTSHEET==> $e');
       showDialog(
           context: context,
           builder: (_) => AlertDialog(
-            content: Text("Cancelled "),
-          ));
+                content: Text("Cancelled "),
+              ));
     } catch (e) {
       print('$e');
     }
@@ -198,7 +209,8 @@ class _CheckOutCartState extends State<CheckOutCart> {
           Uri.parse('https://api.stripe.com/v1/payment_intents'),
           body: body,
           headers: {
-            'Authorization': 'Bearer sk_test_51L8xcgHalZvwhJhBRS73IEuDfGDiOYa6pdSffcKmGvF6ncV0ASpmnTRQAIA70xgKmIlDytHpmzLVj1Hr888ZyJ5200CH424hsW',
+            'Authorization':
+                'Bearer sk_test_51L8xcgHalZvwhJhBRS73IEuDfGDiOYa6pdSffcKmGvF6ncV0ASpmnTRQAIA70xgKmIlDytHpmzLVj1Hr888ZyJ5200CH424hsW',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
       print('Create Intent reponse ===> ${response.body.toString()}');
@@ -209,7 +221,7 @@ class _CheckOutCartState extends State<CheckOutCart> {
   }
 
   calculateAmount(double amount) {
-    final a = amount.toInt() ;
+    final a = amount.toInt();
     return a.toString();
   }
 }

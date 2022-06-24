@@ -42,6 +42,39 @@ class _buildSheetTable2State extends State<buildSheetTable2> {
               children: <Widget>[
                 buildHeroContainer(),
                 const SizedBox(height: 24),
+                widget.table.state != true
+                    ? Row(
+                        children: [
+                          const SizedBox(width: 5),
+                          SizedBox(
+                            child: Icon(
+                              Icons.circle,
+                              color: Colors.green.shade700,
+                              size: 10,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Text("Đang hoạt động"),
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          const SizedBox(width: 5),
+                          SizedBox(
+                            child: Icon(
+                              Icons.circle,
+                              color: Colors.grey.shade800,
+                              size: 10,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Text("Ngưng hoạt động"),
+                        ],
+                      ),
                 Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: Text('Booking Details', style: heading)),
@@ -155,14 +188,12 @@ class _buildSheetTable2State extends State<buildSheetTable2> {
             color: mainColor,
             borderRadius: BorderRadius.circular(22),
           ),
-          child: Text('${widget.table.cateID}', style: inverseHeading1),
+          child: Text('${widget.table.tableid}', style: inverseHeading1),
         ),
         const SizedBox(height: 2),
         Text('${widget.table.nameTable}', style: heading1),
         const SizedBox(height: 2),
-        //Text(changeState(), style: heading2),
         const SizedBox(height: 2),
-        Text('${widget.table.state}', style: heading1),
         const SizedBox(height: 2),
         const SizedBox(height: 2),
         Text('${widget.table.description}', style: heading2),

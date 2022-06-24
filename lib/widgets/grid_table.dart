@@ -4,18 +4,10 @@ import 'package:flutter_doan/model/tables.dart';
 import 'package:flutter_doan/widgets/detailtable.dart';
 import 'package:quiver/strings.dart';
 
-class GridProduct extends StatefulWidget {
+class GridProduct extends StatelessWidget {
   Tables table;
+  GridProduct({Key? key, required this.table}) : super(key: key);
 
-  GridProduct({
-    required this.table,
-  });
-
-  @override
-  State<GridProduct> createState() => _GridProductState();
-}
-
-class _GridProductState extends State<GridProduct> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -42,7 +34,7 @@ class _GridProductState extends State<GridProduct> {
                           //   fit: BoxFit.cover,
                           // ),
                           Image.network(
-                        "${widget.table.image}",
+                        "${table.image}",
                         fit: BoxFit.cover,
                       )),
                 ),
@@ -54,7 +46,7 @@ class _GridProductState extends State<GridProduct> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "${widget.table.nameTable}",
+                    "${table.nameTable}",
                     style: const TextStyle(
                       fontSize: 18.75,
                       fontWeight: FontWeight.w900,
@@ -63,7 +55,7 @@ class _GridProductState extends State<GridProduct> {
                     maxLines: 2,
                   ),
                   Text(
-                    "${widget.table.price} VND",
+                    "${table.price} VND",
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
@@ -79,10 +71,42 @@ class _GridProductState extends State<GridProduct> {
                           size: 25,
                         ),
                       ),
-                      Text("${widget.table.quantity}"),
+                      Text("${table.tableid}"),
                     ],
                   ),
-                  changeState()
+                  table.state != true
+                      ? Row(
+                          children: [
+                            const SizedBox(width: 5),
+                            SizedBox(
+                              child: Icon(
+                                Icons.circle,
+                                color: Colors.green.shade700,
+                                size: 10,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text("Đang hoạt động"),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            const SizedBox(width: 5),
+                            SizedBox(
+                              child: Icon(
+                                Icons.circle,
+                                color: Colors.grey.shade800,
+                                size: 10,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text("Ngưng hoạt động"),
+                          ],
+                        )
                 ],
               ),
             ),
@@ -95,46 +119,8 @@ class _GridProductState extends State<GridProduct> {
           isDismissible: false,
           context: context,
           builder: (context) => buildSheetTable2(
-                table: widget.table,
+                table: table,
               )),
     );
-  }
-
-  changeState() {
-    if (widget.table.state == true) {
-      return Row(
-        children: [
-          const SizedBox(width: 5),
-          SizedBox(
-            child: Icon(
-              widget.table.state ? Icons.circle : Icons.circle,
-              color: Colors.green.shade700,
-              size: 10,
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          const Text("Đang hoạt động"),
-        ],
-      );
-    } else {
-      return Row(
-        children: [
-          const SizedBox(width: 5),
-          SizedBox(
-            child: Icon(
-              widget.table.state ? Icons.circle : Icons.circle,
-              color: Colors.black54,
-              size: 10,
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          const Text("ngưng hoạt động"),
-        ],
-      );
-    }
   }
 }

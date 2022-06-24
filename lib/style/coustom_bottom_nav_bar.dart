@@ -153,7 +153,7 @@ class CartTBSP extends StatelessWidget {
             style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
           ),
           Text(
-            "${tableItems.table!.quantity}",
+            "${tableItems.table!.tableid}",
             style: const TextStyle(fontSize: 11, color: Colors.grey),
           ),
         ],
