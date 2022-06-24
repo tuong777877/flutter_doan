@@ -1,13 +1,57 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/enums.dart';
-import 'package:flutter_doan/fragment/profileUser/accountheader.dart';
-import 'package:flutter_doan/homepage/components/homeheader.dart';
+import 'package:flutter_doan/model/userModel.dart';
 import 'package:flutter_doan/signin/signin.dart';
 import 'package:flutter_doan/style/coustom_bottom_nav_bar.dart';
 import 'package:flutter_doan/style/size_config.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+
+  const ProfilePage({ Key? key }) : super(key: key);
+  static String routeName = "/profile_user";
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final email = TextEditingController();
+  final phone = TextEditingController();
+  final city = TextEditingController();
+  final password = TextEditingController();
+  List<UserModel> listUsers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    final User? user = auth.currentUser;
+    final uid = user!.uid;
+    await users.get().then((value) {
+      for (var doc in value.docs) {
+        listUsers.add(UserModel(uid: doc.get('uid'), email: doc.get('email'), userName: doc.get('userName'), 
+        phoneNumber: doc.get('phoneNumber'), address: doc.get('address'), images: doc.get('images')));
+      }
+    });
+
+    for (var i = 0; i < listUsers.length; i++) {
+      var e = listUsers.elementAt(i);
+      print(e);
+      if (e.uid == uid) {
+        email.text = e.email!;
+        phone.text = e.phoneNumber!;
+        city.text = e.address!;
+      }
+    }
+  }
+  
 
   Widget _texrFormField(context){
     return Column(
@@ -16,6 +60,7 @@ class ProfilePage extends StatelessWidget {
       children: [
         Padding(padding: EdgeInsets.symmetric(vertical: 15,),
         child: TextFormField(
+          controller: email,
           style: TextStyle(
             color: Colors.black
           ),
@@ -23,7 +68,7 @@ class ProfilePage extends StatelessWidget {
             counterStyle: TextStyle(color: Colors.black),
             focusColor: Colors.black,
             icon: Icon(Icons.email),
-            hintText: 'nguyendaoduchuy@gmail.com',
+          //  hintText: 'nguyendaoduchuy@gmail.com', 
             hintStyle: TextStyle(
               color: Colors.black),
             )
@@ -47,6 +92,7 @@ class ProfilePage extends StatelessWidget {
         ),
         Padding(padding: EdgeInsets.symmetric(vertical: 15,),
         child: TextFormField(
+          controller: phone,
           style: TextStyle(
             color: Colors.black
           ),
@@ -63,6 +109,7 @@ class ProfilePage extends StatelessWidget {
         ),
         Padding(padding: EdgeInsets.symmetric(vertical: 15,),
         child: TextFormField(
+          controller: city,
           style: TextStyle(
             color: Colors.black
           ),
@@ -115,8 +162,6 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  const ProfilePage({ Key? key }) : super(key: key);
-  static String routeName = "/profile_user";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

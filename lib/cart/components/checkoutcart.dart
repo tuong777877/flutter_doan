@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/homepage/homepage.dart';
+import 'package:flutter_doan/model/carts.dart';
+import 'package:flutter_doan/model/items.dart';
+import 'package:flutter_doan/model/tableitems.dart';
 import 'package:flutter_doan/style/constants.dart';
 import 'package:flutter_doan/style/default_button.dart';
 import 'package:flutter_doan/style/size_config.dart';
@@ -20,7 +23,8 @@ class CheckOutCart extends StatefulWidget {
 
 class _CheckOutCartState extends State<CheckOutCart> {
   Map<String, dynamic>? paymentIntentData;
-
+  List<Items> cartdetails = Cart().getCart();
+  List<TableItems> cartTBdetails = CartTable().getCartTB();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -150,6 +154,8 @@ class _CheckOutCartState extends State<CheckOutCart> {
           context: context,
             builder: (context) {
               Future.delayed(Duration(seconds: 5), () {
+                cartdetails.clear();
+                cartTBdetails.clear();
                 Navigator.pushReplacementNamed(context, HomePage.routeName);
               });
               return AlertDialog(
@@ -158,6 +164,8 @@ class _CheckOutCartState extends State<CheckOutCart> {
             actions: [
               TextButton(
                 onPressed: () {
+                  cartdetails.clear();
+                  cartTBdetails.clear();
                   Navigator.pushReplacementNamed(context, HomePage.routeName);
                 },
                 child: const Text('Đồng ý', style: TextStyle(color: Colors.black),),

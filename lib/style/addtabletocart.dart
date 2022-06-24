@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/model/carts.dart';
-import 'package:flutter_doan/model/table.dart';
 import 'package:flutter_doan/model/tableitems.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -28,7 +26,12 @@ class _AddTableToCartState extends State<AddTableToCart> {
           if (cartTB.getCartTB().isNotEmpty ||
               widget.tableItem.datetime.isBefore(DateTime.now())) {
             Fluttertoast.showToast(
-                msg: "Bạn đang đặt 1 bàn khác",
+                msg: "Vui lòng chọn thời gian sau ngày: " + 
+                DateTime.now().day.toString() + "/" + 
+                DateTime.now().month.toString() + "/" +
+                DateTime.now().year.toString() + " và sau " +
+                DateTime.now().hour.toString() + " giờ " +
+                DateTime.now().minute.toString() + " phút ",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,

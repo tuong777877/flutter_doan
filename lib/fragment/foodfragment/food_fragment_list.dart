@@ -4,15 +4,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_doan/fragment/foodfragment/components/data.foods.dart';
 import 'package:flutter_doan/model/food.dart';
 import 'package:flutter_doan/model/foods.dart';
 import 'package:flutter_doan/widgets/grid_food.dart';
-import 'package:flutter_doan/widgets/grid_table.dart';
-import 'package:validators/sanitizers.dart';
 
-class FoodlistFragmet extends StatelessWidget {
+class FoodlistFragmet extends StatefulWidget {
   const FoodlistFragmet({Key? key}) : super(key: key);
 
+  @override
+  State<FoodlistFragmet> createState() => _FoodlistFragmetState();
+}
+
+class _FoodlistFragmetState extends State<FoodlistFragmet> {
+
+  List foodList = [];
+  
+  @override
+  void initState() {
+    super.initState();
+    fetchDatabaseList();
+  }
+
+  fetchDatabaseList() async {
+    dynamic resultant = await DatabaseManager().getFoodList();
+
+    if (resultant == null) {
+      print('Unable to retrieve');
+    } else {
+      setState(() {
+        foodList = resultant;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,21 +59,20 @@ class FoodlistFragmet extends StatelessWidget {
           //   childAspectRatio: MediaQuery.of(context).size.width /
           //       (MediaQuery.of(context).size.height / 1.25),
           // ),
-          itemCount: food == null ? 0 : food.length,
-          itemBuilder: (BuildContext context, int index) {
-            Map tables = food[index];
-            final List<Foods> storedocs = [];
-            bool s = (tables['status']);
-            bool foodtrend = (tables['trending']);
+          itemCount: foodList.length,
+          itemBuilder: (context, index) {
+            Map data  = foodList[index];
+            bool s = (foodList[index]['Status']);
+            bool foodtrend = (foodList[index]['Trending']);
             //Uri myUri = Uri.parse(tables['avatar']);
             //Link mylink = Link(tables['avatar']);
             return GridFood2(
               food: Foods(
-                  id: tables['id'],
-                  nameFood: tables['nameFood'],
-                  description: tables['description'],
-                  image: tables['image'],
-                  price: double.parse(tables['price']),
+                  id: data['Id'],
+                  nameFood: data['Name'],
+                  description: data['Description'],
+                  image: data['Image'],
+                  price: double.parse(data['Price']),
                   //cateID: int.parse(tables['cateID']),
                   status: s,
                   trending: foodtrend),
